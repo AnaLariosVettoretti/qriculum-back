@@ -1,4 +1,4 @@
-package com.qriculum.qriculum.models;
+package com.qriculum.qriculum.beans;
 
 public class ExpLaboral {
 

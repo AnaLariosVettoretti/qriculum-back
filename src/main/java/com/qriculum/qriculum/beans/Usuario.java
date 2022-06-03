@@ -1,4 +1,4 @@
-package com.qriculum.qriculum.models;
+package com.qriculum.qriculum.beans;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
