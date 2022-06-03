@@ -16,8 +16,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.qriculum.qriculum.models.Usuario;
+import com.qriculum.qriculum.beans.Usuario;
 import com.qriculum.qriculum.repository.UsuarioRepository;
+import com.qriculum.qriculum.utils.Cifrado;
 
 @CrossOrigin
 @RestController
@@ -35,6 +36,8 @@ public class UsuarioController {
 	@ResponseStatus(HttpStatus.CREATED)
 	@PostMapping("")
 	Usuario create(@RequestBody Usuario usuario) {
+		
+		usuario.setContrasenia(Cifrado.getMD5(usuario.getContrasenia()));
 		return usuarioRepository.save(usuario);
 	}
 
@@ -42,6 +45,25 @@ public class UsuarioController {
     Usuario getOne(@PathVariable("id") String username) {
         return this.usuarioRepository.findById(username).orElseThrow(RuntimeException::new);
     }
+	
+
+	@GetMapping( path = "/{id}{contrasenia}")
+    Usuario validateUser(@PathVariable("id") String username, String password) {
+		
+        Usuario usuarioBBDD = this.usuarioRepository.findById(username).orElseThrow(RuntimeException::new);
+        
+        String inputPass = Cifrado.getMD5(password);
+        
+        if (usuarioBBDD.getContrasenia() == inputPass) {
+			return usuarioBBDD;
+		}else {
+			Usuario userVacio = new Usuario();
+			return userVacio;
+		}
+		
+			
+    }
+    
 	
 	@PutMapping("{id}")
 	Usuario update(@PathVariable String username, @RequestBody Usuario usuario) {		
@@ -55,7 +77,7 @@ public class UsuarioController {
 		usuarioBBDD.setTelefono1(usuario.getTelefono1());
 		usuarioBBDD.setTelefono2(usuario.getTelefono2());
 		usuarioBBDD.setCiudad(usuario.getCiudad());		
-		
+
 		return usuarioRepository.save(usuarioBBDD);
 	}
 	
