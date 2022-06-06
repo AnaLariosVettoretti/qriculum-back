@@ -49,24 +49,21 @@ public class UsuarioController {
 	@GetMapping(value = "/user")
 	public Usuario validateUser(
 
-	    @RequestParam(value = "id", required = true) String username,
-		@RequestParam(value = "hash", required = true) String password
-	    ) {
-		
-	    Usuario usuarioBBDD = this.usuarioRepository.findById(username).orElseThrow(RuntimeException::new);
-	        
-	    return usuarioBBDD;
-	    /*    
-	    String inputPass = Cifrado.getMD5(password);
-	        
-	        if (usuarioBBDD.getContrasenia() == inputPass) {
-				return usuarioBBDD;
-			}else {
-				Usuario userVacio = new Usuario();
-				return userVacio;
-			}
-			
-		*/	
+			@RequestParam(value = "id", required = true) String username,
+			@RequestParam(value = "hash", required = true) String password) {
+
+		Usuario usuarioBBDD = this.usuarioRepository.findById(username).orElseThrow(RuntimeException::new);
+
+		String inputPass = Cifrado.getMD5(password);
+
+		if (usuarioBBDD.getContrasenia().contentEquals(inputPass)) {
+			return usuarioBBDD;
+		} else {
+			Usuario userVacio = null;
+
+			return userVacio;
+		}
+
 	}
 
 	@PutMapping("{id}")
