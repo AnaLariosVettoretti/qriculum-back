@@ -73,9 +73,10 @@ public class UsuarioController {
 
 	}
 
-	@PutMapping(value = "update/{id}")
-	Usuario update(@PathVariable String username, @RequestBody Usuario usuario) {
+	@PutMapping(value = "/update/{id}")
+	Usuario update(@PathVariable ("id") String username, @RequestBody Usuario usuario) {
 
+	
 		try {
 			Usuario usuarioBBDD = usuarioRepository.findById(username).orElseThrow(RuntimeException::new);
 	
@@ -97,7 +98,7 @@ public class UsuarioController {
 
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	@DeleteMapping("{id}")
-	void delete(String username) {
+	void delete(@PathVariable ("id") String username) {
 		Usuario usuarioBBDD = usuarioRepository.findById(username).orElseThrow(RuntimeException::new);
 
 		usuarioRepository.delete(usuarioBBDD);
