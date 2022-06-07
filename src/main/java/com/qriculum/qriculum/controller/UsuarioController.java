@@ -53,7 +53,7 @@ public class UsuarioController {
 			@RequestParam(value = "hash", required = true) String password) {
 
 		try {
-			
+
 			Usuario usuarioBBDD = this.usuarioRepository.findById(username).orElseThrow(RuntimeException::new);
 
 			String inputPass = Cifrado.getMD5(password);
@@ -70,26 +70,29 @@ public class UsuarioController {
 
 			return userVacio;
 		}
-		
-
-		
 
 	}
 
 	@PutMapping(value = "update/{id}")
 	Usuario update(@PathVariable String username, @RequestBody Usuario usuario) {
-		Usuario usuarioBBDD = usuarioRepository.findById(username).orElseThrow(RuntimeException::new);
-		usuarioBBDD.setUsuario(usuario.getUsuario());
-		usuarioBBDD.setNombre(usuario.getNombre());
-		usuarioBBDD.setApellido1(usuario.getApellido1());
-		usuarioBBDD.setApellido2(usuario.getApellido2());
-		usuarioBBDD.setEmail(usuario.getEmail());
-		usuarioBBDD.setContrasenia(usuario.getContrasenia());
-		usuarioBBDD.setTelefono1(usuario.getTelefono1());
-		usuarioBBDD.setTelefono2(usuario.getTelefono2());
-		usuarioBBDD.setCiudad(usuario.getCiudad());
 
-		return usuarioRepository.save(usuarioBBDD);
+		try {
+			Usuario usuarioBBDD = usuarioRepository.findById(username).orElseThrow(RuntimeException::new);
+	
+			usuarioBBDD.setNombre(usuario.getNombre());
+			usuarioBBDD.setApellido1(usuario.getApellido1());
+			usuarioBBDD.setApellido2(usuario.getApellido2());
+			usuarioBBDD.setEmail(usuario.getEmail());
+			usuarioBBDD.setContrasenia(usuario.getContrasenia());
+			usuarioBBDD.setTelefono1(usuario.getTelefono1());
+			usuarioBBDD.setTelefono2(usuario.getTelefono2());
+			usuarioBBDD.setCiudad(usuario.getCiudad());
+
+			return usuarioRepository.save(usuarioBBDD);
+		} catch (RuntimeException e) {
+			return new Usuario();
+		}
+
 	}
 
 	@ResponseStatus(HttpStatus.NO_CONTENT)
