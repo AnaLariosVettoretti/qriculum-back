@@ -52,21 +52,31 @@ public class UsuarioController {
 			@RequestParam(value = "id", required = true) String username,
 			@RequestParam(value = "hash", required = true) String password) {
 
-		Usuario usuarioBBDD = this.usuarioRepository.findById(username).orElseThrow(RuntimeException::new);
+		try {
+			
+			Usuario usuarioBBDD = this.usuarioRepository.findById(username).orElseThrow(RuntimeException::new);
 
-		String inputPass = Cifrado.getMD5(password);
+			String inputPass = Cifrado.getMD5(password);
 
-		if (usuarioBBDD.getContrasenia().contentEquals(inputPass)) {
-			return usuarioBBDD;
-		} else {
+			if (usuarioBBDD.getContrasenia().contentEquals(inputPass)) {
+				return usuarioBBDD;
+			} else {
+				Usuario userVacio = null;
+
+				return userVacio;
+			}
+		} catch (RuntimeException e) {
 			Usuario userVacio = null;
 
 			return userVacio;
 		}
+		
+
+		
 
 	}
 
-	@PutMapping("{id}")
+	@PutMapping(value = "update/{id}")
 	Usuario update(@PathVariable String username, @RequestBody Usuario usuario) {
 		Usuario usuarioBBDD = usuarioRepository.findById(username).orElseThrow(RuntimeException::new);
 		usuarioBBDD.setUsuario(usuario.getUsuario());
