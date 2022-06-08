@@ -84,7 +84,7 @@ public class UsuarioController {
 			usuarioBBDD.setApellido1(usuario.getApellido1());
 			usuarioBBDD.setApellido2(usuario.getApellido2());
 			usuarioBBDD.setEmail(usuario.getEmail());
-			usuarioBBDD.setContrasenia(usuario.getContrasenia());
+			usuarioBBDD.setContrasenia(Cifrado.getMD5(usuario.getContrasenia()));
 			usuarioBBDD.setTelefono1(usuario.getTelefono1());
 			usuarioBBDD.setTelefono2(usuario.getTelefono2());
 			usuarioBBDD.setCiudad(usuario.getCiudad());
