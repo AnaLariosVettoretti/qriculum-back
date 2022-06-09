@@ -95,6 +95,25 @@ public class UsuarioController {
 		}
 
 	}
+	
+	
+	@PutMapping(value = "/updateCV/{id}")
+	Usuario updateCV(@PathVariable ("id") String username, @RequestBody Usuario usuario) {
+
+	
+		try {
+			Usuario usuarioBBDD = usuarioRepository.findById(username).orElseThrow(RuntimeException::new);
+	
+			usuarioBBDD.setCv(usuario.getCv());
+
+
+			return usuarioRepository.save(usuarioBBDD);
+			
+		} catch (RuntimeException e) {
+			return new Usuario();
+		}
+
+	}
 
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	@DeleteMapping("{id}")
