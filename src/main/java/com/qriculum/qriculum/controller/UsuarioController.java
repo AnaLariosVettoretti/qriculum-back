@@ -43,7 +43,17 @@ public class UsuarioController {
 
 	@GetMapping(path = "/{id}")
 	Usuario getOne(@PathVariable("id") String username) {
-		return this.usuarioRepository.findById(username).orElseThrow(RuntimeException::new);
+		
+		try {
+			return this.usuarioRepository.findById(username).orElseThrow(RuntimeException::new);
+			
+		} catch (RuntimeException e) {
+			
+			Usuario userVacio = null;
+
+			return userVacio;
+		}
+		
 	}
 
 	@GetMapping(value = "/user")
@@ -84,7 +94,6 @@ public class UsuarioController {
 			usuarioBBDD.setApellido1(usuario.getApellido1());
 			usuarioBBDD.setApellido2(usuario.getApellido2());
 			usuarioBBDD.setEmail(usuario.getEmail());
-			usuarioBBDD.setContrasenia(Cifrado.getMD5(usuario.getContrasenia()));
 			usuarioBBDD.setTelefono1(usuario.getTelefono1());
 			usuarioBBDD.setTelefono2(usuario.getTelefono2());
 			usuarioBBDD.setCiudad(usuario.getCiudad());
