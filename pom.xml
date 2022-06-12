@@ -45,7 +45,7 @@
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
 					<excludes>
-					<source>18</source>
+					<source>11</source>
 						<exclude>
 							<groupId>org.projectlombok</groupId>
 							<artifactId>lombok</artifactId>
