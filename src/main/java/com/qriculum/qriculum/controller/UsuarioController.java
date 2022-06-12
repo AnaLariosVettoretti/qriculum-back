@@ -22,7 +22,7 @@ import com.qriculum.qriculum.utils.Cifrado;
 
 @CrossOrigin
 @RestController
-@RequestMapping("")
+@RequestMapping("/usuarios")
 public class UsuarioController {
 
 	@Autowired
